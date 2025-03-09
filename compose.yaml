@@ -1,0 +1,15 @@
+services:
+#  oracle:
+#    image: 'gvenzl/oracle-free:latest'
+#    environment:
+#      - 'ORACLE_PASSWORD=secret'
+#    ports:
+#      - '1521'
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      - 'RABBITMQ_DEFAULT_USER=myuser'
+      - 'RABBITMQ_DEFAULT_PASS=secret'
+    ports:
+      - 5672:5672
+      - 15672:15672

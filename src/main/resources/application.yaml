@@ -1,0 +1,83 @@
+server:
+  port: 8080
+  error:
+    whitelabel:
+      enabled: false
+    include-stacktrace: always
+    path: /error
+    include-exception: 'true'
+  servlet:
+    context-path: /
+    encoding:
+      charset: 'UTF-8'
+      force-response: 'true'
+
+spring:
+  jackson:
+    time-zone: UTC
+  devtools:
+    restart:
+      enabled: false
+  application:
+    name: food_storage
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    hikari:
+      pool-name: HikariPool
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+      schema: TEST
+
+  jpa:
+    database-platform: org.hibernate.dialect.OracleDialect
+    properties:
+      hibernate:
+        default_schema: public
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+      ddl-auto: validate
+    show-sql: ${SHOW_SQL}
+  liquibase:
+    enabled: ${LIQUIBASE_ENABLED}
+    drop-first: ${LIQUIBASE_DROP_FIRST}
+    change-log: ${LIQUIBASE_CHANGE_LOG}
+    default-schema: TEST
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ${RABBITMQ_DEFAULT_USER}
+    password: ${RABBITMQ_DEFAULT_PASS}
+    queues:
+      text-message-update: text_message_update
+      doc-message-update: doc_message_update
+      photo-message-update: photo_message_update
+      answer-message: answer_message
+
+logging:
+  level:
+    com.zaxxer.hikari.HikariConfig: DEBUG
+    com.zaxxer.hikari: TRACE
+    org:
+      springframework:
+        security: ${LOGGING_LEVEL_SEC}
+    root: ${LOGGING_LEVEL_ROOT}
+    jordan.igor.telegram_bot: ${LOGGING_LEVEL_FOOD_STORAGE}
+  swagger-ui:
+    docExpansion: none
+
+telegram:
+  bot:
+    api-url: ${TELEGRAM_API_URL}
+    username: ${TELEGRAM_BOT_USERNAME}
+    token: ${TELEGRAM_BOT_TOKEN}
+    webhook-path: ${TELEGRAM_BOT_WEBHOOK_PATH}
